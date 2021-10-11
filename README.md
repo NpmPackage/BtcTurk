@@ -1,5 +1,11 @@
 # btcturk
-this project has been updated from https://github.com/berke0bayraktar/btcturk-api-client
+this project has been updated from berke0bayraktar 
+
+```
+https://www.npmjs.com/package/btcturk
+
+```
+
 
 ## Installation
 

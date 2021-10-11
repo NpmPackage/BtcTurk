@@ -195,7 +195,6 @@ module.exports = function (apiKey = null, apiSecret = null) {
 
     function getOpenOrders(pair) {
         const url = _constructURL(OPEN_ORDERS_ENDPOINT);
-        console.log("pair",pair)
         if (pair) {
             const pairSymbol = _getPairSymbol(pair, '_');
             url.searchParams.set('pairSymbol', pairSymbol);
@@ -206,7 +205,6 @@ module.exports = function (apiKey = null, apiSecret = null) {
 
     function getAllOrders(pair) {
         const url = _constructURL(ALL_ORDERS_ENDPOINT);
-        console.log("pair",pair)
         if (pair) {
             const pairSymbol = _getPairSymbol(pair, '_');
             url.searchParams.set('pairSymbol', pairSymbol);

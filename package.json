@@ -1,0 +1,20 @@
+{
+  "name": "btcturk",
+  "version": "1.0.0",
+  "description": "It has been recompiled by making updates on the berke0bayraktar project.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NpmPackage/BtcTurk.git"
+  },
+  "keywords": [],
+  "author": "https://github.com/NpmPackage/BtcTurk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NpmPackage/BtcTurk/issues"
+  },
+  "homepage": "https://github.com/NpmPackage/BtcTurk#readme"
+}

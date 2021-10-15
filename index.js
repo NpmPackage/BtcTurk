@@ -83,13 +83,14 @@ module.exports = function (apiKey = null, apiSecret = null) {
     function _constructErrorMessage(error) {
 
         // Simplifies the error returned from the server which contains a lot of meta-data
-
         const statusCode = error.response.status.toString();
         const statusText = error.response.statusText;
+        const message = error.response.data.message;
 
         return {
             statusCode,
             statusText,
+            message
         };
     }
 
@@ -168,8 +169,10 @@ module.exports = function (apiKey = null, apiSecret = null) {
 
     function getTrades(pair) {
         const url = _constructURL(TRADES_ENDPOINT);
-        const pairSymbol = _getPairSymbol(pair, '_');
-        url.searchParams.set('pairSymbol', pairSymbol);
+        if (pair) {
+            const pairSymbol = _getPairSymbol(pair, '_');
+            url.searchParams.set('pairSymbol', pairSymbol);
+        }
         return _get(url);
     }
 
@@ -199,10 +202,33 @@ module.exports = function (apiKey = null, apiSecret = null) {
             const pairSymbol = _getPairSymbol(pair, '_');
             url.searchParams.set('pairSymbol', pairSymbol);
         }
-        
+
         return _getAuth(url);
     }
 
+    /**
+     * {
+    "asks": [],
+    "bids": [
+        {
+            "id": 4929523995,
+            "price": "3500.0",
+            "amount": "0.30000000",
+            "quantity": "0.30000000",
+            "stopPrice": "0.0",
+            "pairSymbol": "ETHUSDT",
+            "pairSymbolNormalized": "ETH_USDT",
+            "type": "buy",
+            "method": "limit",
+            "orderClientId": "83076da0-9dcf-4785-9d7a-783c4cfd8eb4",
+            "time": 0,
+            "updateTime": 1634218654893,
+            "status": "Untouched",
+            "leftAmount": "0.30000000"
+        }
+    ]
+}
+     */
     function getAllOrders(pair) {
         const url = _constructURL(ALL_ORDERS_ENDPOINT);
         if (pair) {
@@ -228,19 +254,39 @@ module.exports = function (apiKey = null, apiSecret = null) {
         return _post(url, data);
     }
 
+    /*
+    OrderMethod: 1 for market order, 0 for limit order, 2 for Stop limit order
+    result:
+    {
+    "id": 4933656920,
+    "quantity": "200",
+    "price": "0.09100",
+    "stopPrice": "0",
+    "newOrderClientId": "49c5ced7-cfcb-4496-91a6-cabfef662391",
+    "type": "buy",
+    "method": "limit",
+    "pairSymbol": "TRXUSDT",
+    "pairSymbolNormalized": "TRX_USDT",
+    "datetime": 1634244285867
+    }
+    */
     function submitLimitOrder(pair, orderType, price, quantity) {
         const url = _constructURL(ORDER_ENDPOINT);
 
         const pairSymbol = _getPairSymbol(pair);
-        const orderMethod = 'limit';
+        const orderMethod = "limit";
 
         const data = {
             quantity,
             price,
             orderMethod,
             orderType,
-            pairSymbol
+            pairSymbol,
+            newOrderClientId: 'barisdemir@kartepeinternet.com.tr',
+            stopPrice: 0.00000
         };
+
+        console.log(data)
 
         return _post(url, data);
     }
@@ -257,6 +303,7 @@ module.exports = function (apiKey = null, apiSecret = null) {
             stopPrice,
             orderType,
             pairSymbol,
+            newOrderClientId: 'barisdemir@kartepeinternet.com.tr',
         };
 
         return _post(url, data);
@@ -276,11 +323,19 @@ module.exports = function (apiKey = null, apiSecret = null) {
             pairSymbol,
             stopPrice,
             price,
+            newOrderClientId: 'barisdemir@kartepeinternet.com.tr',
         };
 
         return _post(url, data);
     }
 
+    /**
+ {
+    "success": true,
+    "message": "SUCCESS",
+    "code": 0
+}
+     */
     function cancelOrder(orderId) {
         const url = _constructURL(ORDER_ENDPOINT);
         url.searchParams.set('id', orderId);

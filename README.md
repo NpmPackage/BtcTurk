@@ -296,7 +296,17 @@ pair parameter must be empty for all orders
     ```
  - #### submitLimitOrder(pair, orderType, price, quantity)
      Places a limit order for specified pair.  
-     
+      
+      ```Example data value
+      quantity' : '0.12345678', 
+      price : '50000', 
+      stopPrice : 0, 
+      newOrderClientId: 'Barış Demir - botcex.com', 
+      orderMethod:'limit', 
+      orderType:'sell', 
+      pairSymbol:'BTC_TRY' 
+
+
      Parameters:
      * `orderType` : `'buy'`, `'sell'`
      * `price`: limit price for the trade
